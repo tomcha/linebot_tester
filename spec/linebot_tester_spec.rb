@@ -5,7 +5,22 @@ describe LinebotTester do
     expect(LinebotTester::VERSION).not_to be nil
   end
 
-  it 'does something useful' do
-    expect(false).to eq(true)
+  def app
+    @app ||= LinebotTester::Application
   end
+  
+  describe "Application" do
+    include Rack::Test::Methods
+    describe 'レスポンスの精査' do
+      describe '/ へのアクセス' do
+        before { get '/'}
+        it 'Getアクセスした時、正常なHTTPアクセスコードが返ること' do
+          expect(last_response.status).to eq 200
+        end
+      end
+    end
+  end
+#  it 'does something useful' do
+#    expect(false).to eq(true)
+#  end
 end
