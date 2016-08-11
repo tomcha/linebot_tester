@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require 'json'
+require 'date'
 
 module LinebotTester
   class Application < Sinatra::Base
@@ -16,9 +17,7 @@ module LinebotTester
       json_data = JSON.parse data
             path = File.expand_path('../../../log/', __FILE__)
             File.open(File.join(path,'params.log'), "a") do |f|
-              f.puts '------------------------------------------------'
-              f.puts data
-              f.puts '------------------------------------------------'
+              f.puts "\n#{DateTime.now.strftime('%Y-%m-%d %H:%M:%S')} #{data}"
               json_data.each do |key, value|
                 txt = "key: #{key}, value: #{value}"
                 f.puts txt
