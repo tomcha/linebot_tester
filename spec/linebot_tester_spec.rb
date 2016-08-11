@@ -10,19 +10,35 @@ describe LinebotTester do
   end
 
   describe "Application" do
-    include Rack::Test::Methods
+#    include Rack::Test::Methods
     describe 'レスポンスの精査' do
       describe '/ へのGetアクセス' do
+
         before { get '/'}
-        it 'Getアクセスした時、正常なHTTPアクセスコードが返ること' do
+        it '正常なHTTPアクセスコードが返ること' do
           expect(last_response.status).to eq 200
         end
+
       end
 
       describe '/へのPostアクセス' do
-        before { post '/linebot/callback'}
-        it 'Postアクセスした時、正常なHTTPアクセスコードが返ること' do
+
+        before { post '/'}
+        it '正常なHTTPアクセスコードが返ること' do
           expect(last_response.status).to eq 200
+        end
+
+      end
+
+      describe '/line/callbackへパラメーター付きのPostアクセス' do
+
+        before { post '/linebot/callback', '{"a":1, "b":"弐"}', { "CONTENT_TYPE" => "application/json" } }
+        it '正常なHTTPアクセスコードが返ること' do
+          expect(last_response.status).to eq 200
+        end
+
+        it 'パラメータ値がbodyに反映されて返ること' do
+          expect(last_response.body).to eq('params logged.') 
         end
       end
     end
